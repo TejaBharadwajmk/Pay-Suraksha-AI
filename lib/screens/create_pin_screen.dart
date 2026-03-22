@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guardpay_ai/screens/dashboard_screen.dart';
 import '../theme/app_theme.dart';
-import 'face_screen.dart';
 
 class CreatePinScreen extends StatefulWidget {
   const CreatePinScreen({super.key});
@@ -26,7 +26,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => const FaceScreen(),
+              builder: (_) => const DashboardScreen(),
             ),
           );
         },

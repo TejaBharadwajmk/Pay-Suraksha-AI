@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-
-import 'terms_screen.dart';
+import 'package:http/http.dart' as http;
+import 'face_screen.dart';
+import 'dart:convert';
+import 'package:permission_handler/permission_handler.dart';
 
 class PermissionScreen extends StatefulWidget {
   const PermissionScreen({super.key});
@@ -17,6 +19,25 @@ class _PermissionScreenState extends State<PermissionScreen> {
   bool terms = false;
 
   bool get allAllowed => camera && location && storage && terms;
+
+  Future<void> sendPermission() async {
+    final url = Uri.parse(
+      "https://4ew7tczw5f.execute-api.eu-north-1.amazonaws.com/dev/permission",
+    );
+
+    final response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "phone": "9999999999",
+        "permission": true,
+      }),
+    );
+
+    print("PERMISSION RESPONSE = ${response.body}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +68,46 @@ class _PermissionScreenState extends State<PermissionScreen> {
                       "Camera",
                       "For Face Login & QR Scan",
                       camera,
-                      (v) => setState(() => camera = v),
+                      (v) async {
+                        if (v) {
+                          var status = await Permission.camera.request();
+                          if (status.isGranted) {
+                            setState(() => camera = true);
+                          }
+                        } else {
+                          setState(() => camera = false);
+                        }
+                      },
                     ),
                     _tile(
                       "Location",
                       "Fraud detection & security",
                       location,
-                      (v) => setState(() => location = v),
+                      (v) async {
+                        if (v) {
+                          var status = await Permission.location.request();
+                          if (status.isGranted) {
+                            setState(() => location = true);
+                          }
+                        } else {
+                          setState(() => location = false);
+                        }
+                      },
                     ),
                     _tile(
                       "Storage",
                       "Save receipts & documents",
                       storage,
-                      (v) => setState(() => storage = v),
+                      (v) async {
+                        if (v) {
+                          var status = await Permission.photos.request();
+                          if (status.isGranted) {
+                            setState(() => storage = true);
+                          }
+                        } else {
+                          setState(() => storage = false);
+                        }
+                      },
                     ),
                     _tile(
                       "Accept Terms",
@@ -135,21 +183,15 @@ class _PermissionScreenState extends State<PermissionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: AppTheme.headingSmall,
-                ),
-                Text(
-                  subtitle,
-                  style: AppTheme.bodyMedium,
-                ),
+                Text(title, style: AppTheme.headingSmall),
+                Text(subtitle, style: AppTheme.bodyMedium),
               ],
             ),
           ),
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppTheme.blue,
+            activeThumbColor: AppTheme.blue,
           ),
         ],
       ),
@@ -164,11 +206,13 @@ class _PermissionScreenState extends State<PermissionScreen> {
       height: 55,
       child: ElevatedButton(
         onPressed: allAllowed
-            ? () {
-                Navigator.pushReplacement(
+            ? () async {
+                await sendPermission();
+
+                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const TermsScreen(),
+                    builder: (_) => const FaceScreen(),
                   ),
                 );
               }

@@ -1,8 +1,12 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'permission_screen.dart';
 
 class VerifyScreen extends StatefulWidget {
-  const VerifyScreen({super.key});
+  final String verificationId;
+
+  const VerifyScreen({super.key, required this.verificationId});
 
   @override
   State<VerifyScreen> createState() => _VerifyScreenState();
@@ -10,6 +14,32 @@ class VerifyScreen extends StatefulWidget {
 
 class _VerifyScreenState extends State<VerifyScreen> {
   final TextEditingController otpController = TextEditingController();
+
+  Future<void> verifyOtp(String otp) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: widget.verificationId,
+        smsCode: otp,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const PermissionScreen(),
+        ),
+      );
+    } catch (e) {
+      print("OTP ERROR: $e");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Incorrect OTP"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +79,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
               const SizedBox(height: 30),
 
-              /// Title
               const Text(
                 "Enter OTP",
                 style: TextStyle(
@@ -69,7 +98,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
               const SizedBox(height: 20),
 
-              /// OTP field
               TextField(
                 controller: otpController,
                 keyboardType: TextInputType.number,
@@ -86,18 +114,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
               const Spacer(),
 
-              /// Verify button
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const PermissionScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    await verifyOtp(otpController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

@@ -1,4 +1,5 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'verify_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,6 +11,31 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController phoneController = TextEditingController();
+
+  String verificationId = "";
+
+  Future<void> sendOtp(String phone) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: "+91$phone",
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        print(e.message);
+      },
+      codeSent: (String verId, int? resendToken) {
+        verificationId = verId;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => VerifyScreen(
+              verificationId: verificationId,
+            ),
+          ),
+        );
+      },
+      codeAutoRetrievalTimeout: (String verId) {},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 20),
 
-              /// Secure login tag
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -78,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 30),
 
-              /// Title
               const Text(
                 "Enter Mobile Number",
                 style: TextStyle(
@@ -98,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 20),
 
-              /// Phone field
               TextField(
                 controller: phoneController,
                 keyboardType: TextInputType.phone,
@@ -116,18 +139,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const Spacer(),
 
-              /// Button
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const VerifyScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    String phone = phoneController.text;
+                    await sendOtp(phone);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

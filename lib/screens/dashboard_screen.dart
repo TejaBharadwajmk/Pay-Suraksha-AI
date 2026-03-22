@@ -156,7 +156,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Container(
               width: 110,
               height: 110,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: AppTheme.primaryGradient,
               ),
@@ -177,8 +177,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ================= PROMO =================
 
   Widget _buildPromo() {
-    return AppCard(
-      child: const Text(
+    return const AppCard(
+      child: Text(
         "Promo Card",
         style: TextStyle(fontSize: 18),
       ),
@@ -188,8 +188,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ================= SERVICES =================
 
   Widget _buildServices() {
-    return AppCard(
-      child: const Text(
+    return const AppCard(
+      child: Text(
         "Services",
         style: TextStyle(fontSize: 18),
       ),
@@ -199,8 +199,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ================= TXNS =================
 
   Widget _buildRecentTxns() {
-    return AppCard(
-      child: const Text(
+    return const AppCard(
+      child: Text(
         "Recent Transactions",
         style: TextStyle(fontSize: 18),
       ),
@@ -210,8 +210,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // ================= AI SHIELD =================
 
   Widget _buildAiShield() {
-    return AppCard(
-      child: const Text(
+    return const AppCard(
+      child: Text(
         "AI Shield Active",
         style: TextStyle(fontSize: 18),
       ),

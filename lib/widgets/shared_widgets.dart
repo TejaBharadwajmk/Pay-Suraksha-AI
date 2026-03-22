@@ -35,7 +35,9 @@ class GradientButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (leading != null) ...[leading!, const SizedBox(width: 10)],
-            Text(label, style: AppTheme.headingSmall.copyWith(color: Colors.white, fontSize: 17)),
+            Text(label,
+                style: AppTheme.headingSmall
+                    .copyWith(color: Colors.white, fontSize: 17)),
             if (trailing != null) ...[const SizedBox(width: 8), trailing!],
           ],
         ),
@@ -89,7 +91,8 @@ class SectionLabel extends StatelessWidget {
       child: Text(
         text.toUpperCase(),
         style: AppTheme.caption.copyWith(
-          fontWeight: FontWeight.w700, letterSpacing: 0.8,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.8,
         ),
       ),
     );
@@ -114,12 +117,14 @@ class AvatarCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size, height: size,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: gradient ?? const LinearGradient(
-          colors: [Color(0xFF1A6BFF), Color(0xFF0A4FD4)],
-        ),
+        gradient: gradient ??
+            const LinearGradient(
+              colors: [Color(0xFF1A6BFF), Color(0xFF0A4FD4)],
+            ),
         color: gradient == null ? color : null,
       ),
       alignment: Alignment.center,
@@ -163,9 +168,12 @@ class PillBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (dot != null) ...[dot!, const SizedBox(width: 4)],
-          Text(label, style: TextStyle(
-            fontSize: 11, fontWeight: FontWeight.w700, color: textColor,
-          )),
+          Text(label,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: textColor,
+              )),
         ],
       ),
     );
@@ -189,21 +197,27 @@ class _AppToggleState extends State<AppToggle> {
       onTap: () => widget.onChanged(!widget.value),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
-        width: 46, height: 26,
+        width: 46,
+        height: 26,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
           color: widget.value ? AppTheme.blue : AppTheme.border,
         ),
         child: AnimatedAlign(
           duration: const Duration(milliseconds: 220),
-          alignment: widget.value ? Alignment.centerRight : Alignment.centerLeft,
+          alignment:
+              widget.value ? Alignment.centerRight : Alignment.centerLeft,
           child: Container(
             margin: const EdgeInsets.all(3),
-            width: 20, height: 20,
+            width: 20,
+            height: 20,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0,1))],
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 4, offset: Offset(0, 1))
+              ],
             ),
           ),
         ),
@@ -278,13 +292,15 @@ class AppBottomNav extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 22,
-                color: active ? AppTheme.blue : AppTheme.muted),
+              Icon(icon,
+                  size: 22, color: active ? AppTheme.blue : AppTheme.muted),
               const SizedBox(height: 3),
-              Text(label, style: TextStyle(
-                fontSize: 10.5, fontWeight: FontWeight.w600,
-                color: active ? AppTheme.blue : AppTheme.muted,
-              )),
+              Text(label,
+                  style: TextStyle(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w600,
+                    color: active ? AppTheme.blue : AppTheme.muted,
+                  )),
             ],
           ),
         ),
@@ -302,7 +318,8 @@ class AppBottomNav extends StatelessWidget {
             Transform.translate(
               offset: const Offset(0, -14),
               child: Container(
-                width: 56, height: 56,
+                width: 56,
+                height: 56,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: AppTheme.primaryGradient,
@@ -316,18 +333,19 @@ class AppBottomNav extends StatelessWidget {
                   border: Border.all(color: Colors.white, width: 3),
                 ),
                 child: const Icon(Icons.qr_code_scanner_rounded,
-                  color: Colors.white, size: 26),
+                    color: Colors.white, size: 26),
               ),
             ),
             const SizedBox(height: 1),
-            Text('Scan', style: TextStyle(
-              fontSize: 10.5, fontWeight: FontWeight.w600,
-              color: AppTheme.blue,
-            )),
+            const Text('Scan',
+                style: TextStyle(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.blue,
+                )),
           ],
         ),
       ),
     );
   }
 }
-

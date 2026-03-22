@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96888863240",
+    "project_id": "guardpay-ai",
+    "storage_bucket": "guardpay-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96888863240:android:00c6ae96691c4f1b942fbd",
+        "android_client_info": {
+          "package_name": "com.guardpayai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzb6spVu5X6u1LNcRs0xkfX_ixCJ_4VJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

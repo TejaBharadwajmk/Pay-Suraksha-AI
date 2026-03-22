@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'theme/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'screens/welcome_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.light,
-  ));
-
-  runApp(const GuardPayApp());
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
-class GuardPayApp extends StatelessWidget {
-  const GuardPayApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GuardPay AI',
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.theme,
-      home: const WelcomeScreen(),
+      home: WelcomeScreen(),
     );
   }
 }

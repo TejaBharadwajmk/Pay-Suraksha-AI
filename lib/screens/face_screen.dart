@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dashboard_screen.dart';
+import 'terms_screen.dart';
 
 class FaceScreen extends StatelessWidget {
   const FaceScreen({super.key});
@@ -74,7 +74,7 @@ class FaceScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const DashboardScreen(),
+                        builder: (_) => const TermsScreen(),
                       ),
                     );
                   },
