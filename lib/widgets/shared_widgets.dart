@@ -1,7 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-// â”€â”€ Gradient Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Gradient Button ----------
 class GradientButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
@@ -35,9 +35,11 @@ class GradientButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (leading != null) ...[leading!, const SizedBox(width: 10)],
-            Text(label,
-                style: AppTheme.headingSmall
-                    .copyWith(color: Colors.white, fontSize: 17)),
+            Text(
+              label,
+              style: AppTheme.headingSmall
+                  .copyWith(color: Colors.white, fontSize: 17),
+            ),
             if (trailing != null) ...[const SizedBox(width: 8), trailing!],
           ],
         ),
@@ -46,7 +48,7 @@ class GradientButton extends StatelessWidget {
   }
 }
 
-// â”€â”€ App Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- App Card ----------
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
@@ -79,7 +81,7 @@ class AppCard extends StatelessWidget {
   }
 }
 
-// â”€â”€ Section Label â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Section Label ----------
 class SectionLabel extends StatelessWidget {
   final String text;
   const SectionLabel(this.text, {super.key});
@@ -99,7 +101,7 @@ class SectionLabel extends StatelessWidget {
   }
 }
 
-// â”€â”€ Avatar Circle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Avatar Circle ----------
 class AvatarCircle extends StatelessWidget {
   final String initials;
   final double size;
@@ -141,7 +143,7 @@ class AvatarCircle extends StatelessWidget {
   }
 }
 
-// â”€â”€ Pill Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Pill Badge ----------
 class PillBadge extends StatelessWidget {
   final String label;
   final Color bgColor;
@@ -168,23 +170,30 @@ class PillBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (dot != null) ...[dot!, const SizedBox(width: 4)],
-          Text(label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: textColor,
-              )),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: textColor,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-// â”€â”€ Toggle Switch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Toggle ----------
 class AppToggle extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
-  const AppToggle({super.key, required this.value, required this.onChanged});
+
+  const AppToggle({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
 
   @override
   State<AppToggle> createState() => _AppToggleState();
@@ -216,7 +225,10 @@ class _AppToggleState extends State<AppToggle> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black26, blurRadius: 4, offset: Offset(0, 1))
+                  color: Colors.black26,
+                  blurRadius: 4,
+                  offset: Offset(0, 1),
+                )
               ],
             ),
           ),
@@ -226,16 +238,21 @@ class _AppToggleState extends State<AppToggle> {
   }
 }
 
-// â”€â”€ Divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Divider ----------
 class AppDivider extends StatelessWidget {
   const AppDivider({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const Divider(color: AppTheme.border, height: 1, thickness: 1);
+    return const Divider(
+      color: AppTheme.border,
+      height: 1,
+      thickness: 1,
+    );
   }
 }
 
-// â”€â”€ Bottom Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ---------- Bottom Navigation ----------
 class AppBottomNav extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
@@ -278,6 +295,7 @@ class AppBottomNav extends StatelessWidget {
 
   Widget _navItem(int index, IconData icon, String label) {
     final active = currentIndex == index;
+
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap(index),
@@ -292,15 +310,20 @@ class AppBottomNav extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon,
-                  size: 22, color: active ? AppTheme.blue : AppTheme.muted),
+              Icon(
+                icon,
+                size: 22,
+                color: active ? AppTheme.blue : AppTheme.muted,
+              ),
               const SizedBox(height: 3),
-              Text(label,
-                  style: TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w600,
-                    color: active ? AppTheme.blue : AppTheme.muted,
-                  )),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w600,
+                  color: active ? AppTheme.blue : AppTheme.muted,
+                ),
+              ),
             ],
           ),
         ),
@@ -332,17 +355,22 @@ class AppBottomNav extends StatelessWidget {
                   ],
                   border: Border.all(color: Colors.white, width: 3),
                 ),
-                child: const Icon(Icons.qr_code_scanner_rounded,
-                    color: Colors.white, size: 26),
+                child: const Icon(
+                  Icons.qr_code_scanner_rounded,
+                  color: Colors.white,
+                  size: 26,
+                ),
               ),
             ),
             const SizedBox(height: 1),
-            const Text('Scan',
-                style: TextStyle(
-                  fontSize: 10.5,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.blue,
-                )),
+            const Text(
+              'Scan',
+              style: TextStyle(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.blue,
+              ),
+            ),
           ],
         ),
       ),

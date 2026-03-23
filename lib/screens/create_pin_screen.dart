@@ -24,6 +24,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
         const Duration(milliseconds: 300),
         () {
           Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
             context,
             MaterialPageRoute(
               builder: (_) => const DashboardScreen(),

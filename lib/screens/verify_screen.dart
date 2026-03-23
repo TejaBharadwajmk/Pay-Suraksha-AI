@@ -25,14 +25,17 @@ class _VerifyScreenState extends State<VerifyScreen> {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (_) => const PermissionScreen(),
         ),
       );
     } catch (e) {
+      // ignore: avoid_print
       print("OTP ERROR: $e");
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Incorrect OTP"),

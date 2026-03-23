@@ -1,8 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../widgets/shared_widgets.dart'; // ✅ FIXED PATH
 import '../theme/app_theme.dart';
-import '../widgets/shared_widgets.dart';
+import 'scan_screen.dart';
+import 'contact_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -18,9 +19,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.background,
+
       body: SafeArea(
-        child: _buildDashboard(),
+        bottom: false, // ✅ FIX OVERFLOW
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: _header()),
+              SliverToBoxAdapter(child: _scanButton()),
+              SliverToBoxAdapter(child: _quickActions()),
+              SliverToBoxAdapter(child: _upiCard()),
+              SliverToBoxAdapter(child: _services()),
+              SliverToBoxAdapter(child: _transactions()),
+
+              /// ❌ REMOVED EXTRA SPACE (IMPORTANT)
+              // const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ],
+          ),
+        ),
       ),
+
       bottomNavigationBar: AppBottomNav(
         currentIndex: _navIndex,
         onTap: (i) {
@@ -30,102 +49,159 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // ================= DASHBOARD =================
-
-  Widget _buildDashboard() {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(child: _buildHeader()),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate([
-              _buildScanCard(),
-              const SizedBox(height: 14),
-              _buildPromo(),
-              const SizedBox(height: 14),
-              _buildServices(),
-              const SizedBox(height: 14),
-              _buildRecentTxns(),
-              const SizedBox(height: 14),
-              _buildAiShield(),
-            ]),
-          ),
-        ),
-      ],
-    );
-  }
-
   // ================= HEADER =================
 
-  Widget _buildHeader() {
+  Widget _header() {
     return Container(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
       decoration: const BoxDecoration(
         gradient: AppTheme.headerGradient,
       ),
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 68),
-      child: Column(
+      child: Row(
         children: [
-          Row(
+          const AvatarCircle(initials: "RK", size: 44),
+          const SizedBox(width: 10),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AvatarCircle(
-                initials: 'RK',
-                size: 44,
-                gradient: LinearGradient(
-                  colors: [Color(0x33FFFFFF), Color(0x11FFFFFF)],
+              Text(
+                "Good morning",
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.7), // ✅ FIXED
                 ),
               ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Good morning',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                  ),
-                  Text(
-                    'Rahul Kumar',
-                    style: GoogleFonts.sora(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              Text(
+                "Teja-Abhi",
+                style: GoogleFonts.sora(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const Spacer(),
-              _iconBtn(Icons.notifications),
-              const SizedBox(width: 10),
-              _iconBtn(Icons.search),
             ],
           ),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.all(18),
+
+          const Spacer(),
+          _icon(Icons.notifications),
+          const SizedBox(width: 8),
+          _icon(Icons.search),
+        ],
+      ),
+    );
+  }
+
+  Widget _icon(IconData i) {
+    return Container(
+      width: 36,
+      height: 36,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white.withOpacity(0.2), // ✅ FIXED
+      ),
+      child: Icon(i, color: Colors.white),
+    );
+  }
+
+  // ================= SCAN BUTTON =================
+
+  Widget _scanButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 24, bottom: 10),
+      child: Center(
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ScanScreen()),
+            );
+          },
+          child: Container(
+            width: 150,
+            height: 150,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "TOTAL BALANCE",
-                  style: TextStyle(color: Colors.white70),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  "₹ 2,48,350",
-                  style: GoogleFonts.sora(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+              shape: BoxShape.circle,
+              gradient: AppTheme.primaryGradient,
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.blue.withOpacity(0.4), // ✅ FIXED
+                  blurRadius: 25,
+                  spreadRadius: 2,
+                )
               ],
+            ),
+            child: const Icon(
+              Icons.qr_code_scanner,
+              color: Colors.white,
+              size: 55,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ================= QUICK ACTIONS =================
+
+  Widget _quickActions() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: GridView.count(
+        crossAxisCount: 4,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        children: [
+          _gridBtn(Icons.person, "Contact"),
+          _gridBtn(Icons.account_balance, "Bank"),
+          _gridBtn(Icons.qr_code, "UPI"),
+          _gridBtn(Icons.draw, "Sign Pay"),
+        ],
+      ),
+    );
+  }
+
+  Widget _gridBtn(IconData i, String t) {
+    return GestureDetector(
+      onTap: () {
+        if (t == "Contact") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const ContactScreen(),
+            ),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05), // ✅ FIXED
+                  blurRadius: 6,
+                )
+              ],
+            ),
+            child: Center(
+              child: Icon(
+                i,
+                color: AppTheme.blue,
+                size: 30,
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            t,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -133,88 +209,109 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _iconBtn(IconData icon) {
-    return Container(
-      width: 38,
-      height: 38,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white.withOpacity(0.15),
-      ),
-      child: Icon(icon, color: Colors.white),
-    );
-  }
+  // ================= UPI CARD =================
 
-  // ================= SCAN CARD =================
-
-  Widget _buildScanCard() {
-    return Transform.translate(
-      offset: const Offset(0, -44),
+  Widget _upiCard() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: AppCard(
-        child: Column(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 110,
-              height: 110,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: AppTheme.primaryGradient,
-              ),
-              child: const Icon(
-                Icons.qr_code_scanner,
-                color: Colors.white,
-                size: 40,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "UPI ID",
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  "rahul@upi",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            const Text("Scan & Pay"),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppTheme.blue.withOpacity(0.1), // ✅ FIXED
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.qr_code),
+            )
           ],
         ),
       ),
     );
   }
 
-  // ================= PROMO =================
-
-  Widget _buildPromo() {
-    return const AppCard(
-      child: Text(
-        "Promo Card",
-        style: TextStyle(fontSize: 18),
-      ),
-    );
-  }
-
   // ================= SERVICES =================
 
-  Widget _buildServices() {
-    return const AppCard(
-      child: Text(
-        "Services",
-        style: TextStyle(fontSize: 18),
+  Widget _services() {
+    return AppCard(
+      padding: const EdgeInsets.all(16),
+      child: GridView.count(
+        crossAxisCount: 3,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: 14,
+        crossAxisSpacing: 14,
+        children: [
+          _serviceItem(Icons.phone_android, "Recharge"),
+          _serviceItem(Icons.money, "Bills"),
+          _serviceItem(Icons.shield, "Insurance"),
+          _serviceItem(Icons.account_balance, "Loans"),
+          _serviceItem(Icons.flight, "Travel"),
+          _serviceItem(Icons.more_horiz, "More"),
+        ],
       ),
     );
   }
 
-  // ================= TXNS =================
-
-  Widget _buildRecentTxns() {
-    return const AppCard(
-      child: Text(
-        "Recent Transactions",
-        style: TextStyle(fontSize: 18),
+  Widget _serviceItem(IconData icon, String title) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05), // ✅ FIXED
+            blurRadius: 6,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: AppTheme.blue, size: 40),
+          const SizedBox(height: 6),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  // ================= AI SHIELD =================
+  // ================= TRANSACTIONS =================
 
-  Widget _buildAiShield() {
+  Widget _transactions() {
     return const AppCard(
-      child: Text(
-        "AI Shield Active",
-        style: TextStyle(fontSize: 18),
-      ),
+      padding: EdgeInsets.all(16),
+      child: Text("Transactions"),
     );
   }
 }
