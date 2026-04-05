@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'dart:async';
@@ -97,6 +99,7 @@ class _LoginPinScreenState extends State<LoginPinScreen>
       _failedAttempts = 0;
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => const FaceVerifyLoginScreen()));
+    // ignore: dead_code
     } else {
       _failedAttempts++;
       _shakeCtrl.forward(from: 0);
@@ -361,7 +364,7 @@ class _LoginPinScreenState extends State<LoginPinScreen>
                             ],
                           ),
                           const SizedBox(height: 20),
-                          _ActionButton(
+                        _ActionButton(
                             label: "Verify PIN",
                             loading: _loading,
                             enabled: _pin.length == 6 && !_isLockedOut,
@@ -511,12 +514,14 @@ class _ActionButton extends StatefulWidget {
   final bool enabled;
   final bool isSuccess;
   final VoidCallback onTap;
-  const _ActionButton(
-      {required this.label,
-      required this.loading,
-      required this.enabled,
-      required this.onTap,
-      this.isSuccess = false});
+
+  const _ActionButton({
+    this.isSuccess = false,
+    required this.label,
+    required this.loading,
+    required this.enabled,
+    required this.onTap,
+  });
 
   @override
   State<_ActionButton> createState() => _ActionButtonState();

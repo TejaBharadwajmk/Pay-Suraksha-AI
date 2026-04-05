@@ -21,8 +21,10 @@ dependencies:
   http: ^1.2.0
 
   # Firebase (optional but already in your project)
-  firebase_core: ^3.6.0
-  firebase_auth: ^5.3.1
+  dependencies:
+  firebase_core: ^2.30.0
+  firebase_auth: ^4.17.0
+  cloud_firestore: ^4.15.0
 
   # Permissions
   permission_handler: ^11.3.1
